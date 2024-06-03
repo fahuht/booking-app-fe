@@ -52,6 +52,7 @@ const CategoryManage = (props) => {
   useEffect(() => {
     if (isUpdateCategorySucces) {
       openNotificationWithIcon('success', 'Cập nhật thành công', '')
+      dispatch(clearStateCategory())
       dispatch(
         getCategory({
           ...baseRequest,
@@ -63,6 +64,7 @@ const CategoryManage = (props) => {
   useEffect(() => {
     if (isDeleteCategorySucces) {
       openNotificationWithIcon('success', 'Xoá thành công', '')
+      dispatch(clearStateCategory())
       dispatch(
         getCategory({
           ...baseRequest,

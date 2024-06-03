@@ -22,12 +22,14 @@ const OrderMage = () => {
   const [dataRequest, setDataRquest] = useState(baseRequest)
 
   useEffect(() => {
-    if (isApproveSuccess) dispatch(clearStateProduct())
-    dispatch(
-      getListOrder({
-        ...dataRequest,
-      }),
-    )
+    if (isApproveSuccess){
+      dispatch(clearStateProduct())
+      dispatch(
+        getListOrder({
+          ...dataRequest,
+        }),
+      )
+    } 
   }, [isApproveSuccess])
 
   useEffect(() => {
