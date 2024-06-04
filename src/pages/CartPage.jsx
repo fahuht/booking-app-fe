@@ -89,6 +89,17 @@ const CartPage = () => {
       key: 'price',
     },
     {
+      align: 'center',
+      title: 'Kích thước',
+      // dataIndex: 'price',
+      key: 'size',
+      render: (record) => {
+        if (record?.size === 'sizeS') return <div>S</div>
+        if (record?.size === 'sizeM') return <div>M</div>
+        if (record?.size === 'sizeL') return <div>L</div>
+      },
+    },
+    {
       title: 'Số lượng',
       align: 'center',
       dataIndex: 'quantity',

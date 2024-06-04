@@ -112,7 +112,7 @@ const Header = () => {
           <div className="header-right-icon d-flex align-items-center gap-4">
             {user ? (
               <div className="d-flex gap-4 align-items-center">
-                <strong>{user && user.user.username}</strong>
+                <strong>{user?.user?.firstname} {user?.user?.lastname}</strong>
                 <Button
                   className="addtoCart_btn"
                   onClick={() => handleLogout()}

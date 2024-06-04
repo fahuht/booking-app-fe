@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import '../product-card/ProductCard.css'
 import CardModal from '../CardModal/CardModal'
+import FoodIcon from '../../assets/image/food-icon.png'
 
 const ProductCard = (props) => {
-  const { _id, title, image, price } = props.item
+  const { _id, title, image, priceBySize } = props.item
   const { item } = props
 
   const user = useSelector((state) => state.authReducer.authData)
@@ -24,7 +25,7 @@ const ProductCard = (props) => {
   return (
     <div className="product_item d-flex flex-column ">
       <div className="product_image">
-        <img src={image && image.url} alt="product___image" className="w-50" />
+        <img src={image && image.url || FoodIcon} alt="product___image" className="w-50" />
       </div>
       <div className="product__content">
         <h5>
@@ -37,7 +38,7 @@ const ProductCard = (props) => {
           </span>
         </h5>
         <div className="d-flex align-items-content justify-content-between ">
-          <span className="product__price">{price}đ</span>
+          <span className="product__price">{priceBySize.sizeS}đ</span>
           <button className="addtoCart_btn" onClick={() => handleAddCart()}>
             Thêm vào giỏ hàng
           </button>

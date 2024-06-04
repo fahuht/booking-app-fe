@@ -157,7 +157,7 @@ const Home = () => {
                     category === 'Đồ ăn' ? 'food_btn_active' : ''
                   } `}
                   onClick={() => {
-                    handleChangeCategory('food')
+                    handleChangeCategory('DO_AN')
                     setCategory('Đồ ăn')
                   }}
                 >

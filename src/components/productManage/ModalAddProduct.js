@@ -16,7 +16,11 @@ const ModalAddProduct = (props) => {
     title: '',
     image: null,
     description: '',
-    price: '',
+    priceBySize: {
+      sizeS: 0,
+      sizeM: 0,
+      sizeL: 0,
+    },
     stock: 0,
     category: 'food',
   })
@@ -54,6 +58,17 @@ const ModalAddProduct = (props) => {
     setDataRquest(newDataRequest)
   }
 
+  const handleChangePrice = (e) => {
+    const newDataRequest = {
+      ...dataRequest,
+      priceBySize: {
+        ...dataRequest.priceBySize,
+        [e.target.name]: Number(e.target.value),
+      },
+    }
+    setDataRquest(newDataRequest)
+  }
+
   // hàm call api tạo sản phẩm
   const handleCreateProduct = () => {
     dispatch(createProduct(dataRequest))
@@ -82,10 +97,22 @@ const ModalAddProduct = (props) => {
           onChange={(e) => handleChange(e)}
         />
         <Input
-          name="price"
-          placeholder="Nhập giá"
+          name="sizeS"
+          placeholder="Nhập giá size S"
           type="number"
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleChangePrice(e)}
+        />
+        <Input
+          name="sizeM"
+          placeholder="Nhập giá size M"
+          type="number"
+          onChange={(e) => handleChangePrice(e)}
+        />
+        <Input
+          name="sizeL"
+          placeholder="Nhập giá size L"
+          type="number"
+          onChange={(e) => handleChangePrice(e)}
         />
         <Input
           name="stock"
@@ -105,11 +132,12 @@ const ModalAddProduct = (props) => {
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          {listCategory.data && listCategory.data.map((option) => (
-            <Option key={option._id} value={option.code}>
-              {option.name}
-            </Option>
-          ))}
+          {listCategory.data &&
+            listCategory.data.map((option) => (
+              <Option key={option._id} value={option.code}>
+                {option.name}
+              </Option>
+            ))}
         </Select>
       </div>
     </Modal>

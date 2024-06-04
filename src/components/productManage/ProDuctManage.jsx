@@ -102,9 +102,37 @@ const ProDuctManage = (props) => {
     },
     {
       align: 'center',
-      title: 'Giá',
-      dataIndex: 'price',
-      key: 'price',
+      title: 'Giá size S',
+      // dataIndex: 'priceBySize.sizeS',
+      key: 'price_sizeS',
+      render: (record) => {
+        return (
+          <div>{record?.priceBySize?.sizeS}</div>
+        )
+      }
+
+    },
+    {
+      align: 'center',
+      title: 'Giá size M',
+      // dataIndex: 'priceBySize.sizeM',
+      key: 'price_sizeM',
+      render: (record) => {
+        return (
+          <div>{record?.priceBySize?.sizeM}</div>
+        )
+      }
+    },
+    {
+      align: 'center',
+      title: 'Giá size L',
+      // dataIndex: 'priceBySize.sizeL',
+      key: 'price_sizeL',
+      render: (record) => {
+        return (
+          <div>{record?.priceBySize?.sizeL}</div>
+        )
+      }
     },
     {
       title: 'Số lượng',

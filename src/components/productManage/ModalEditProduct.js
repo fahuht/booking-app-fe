@@ -18,7 +18,11 @@ const ModalEditProduct = (props) => {
     title: itemProduct.title || '',
     // image: itemProduct.image || null,
     description: itemProduct.description || '',
-    price: itemProduct.price || '',
+    priceBySize: {
+      sizeS: itemProduct?.priceBySize.sizeS || 0,
+      sizeM: itemProduct?.priceBySize.sizeM || 0,
+      sizeL: itemProduct?.priceBySize.sizeL || 0,
+    },
     stock: itemProduct.stock || 0,
     category: itemProduct.category || '',
     categoryName: itemProduct.categoryName || '',
@@ -54,6 +58,17 @@ const ModalEditProduct = (props) => {
     setDataRquest(newDataRequest)
   }
 
+  const handleChangePrice = (e) => {
+    const newDataRequest = {
+      ...dataRequest,
+      priceBySize: {
+        ...dataRequest.priceBySize,
+        [e.target.name]: Number(e.target.value),
+      },
+    }
+    setDataRquest(newDataRequest)
+  }
+
   // hàm call api tạo sản phẩm
   const handleCreateProduct = () => {
     dispatch(updateProduct(dataRequest))
@@ -84,11 +99,25 @@ const ModalEditProduct = (props) => {
           onChange={(e) => handleChange(e)}
         />
         <Input
-          name="price"
-          value={dataRequest.price}
-          placeholder="Nhập giá"
+          name="sizeS"
+          placeholder="Nhập giá size S"
+          value={dataRequest.priceBySize.sizeS}
           type="number"
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleChangePrice(e)}
+        />
+        <Input
+          name="sizeM"
+          placeholder="Nhập giá size M"
+          value={dataRequest.priceBySize.sizeM}
+          type="number"
+          onChange={(e) => handleChangePrice(e)}
+        />
+        <Input
+          name="sizeL"
+          placeholder="Nhập giá size L"
+          value={dataRequest.priceBySize.sizeL}
+          type="number"
+          onChange={(e) => handleChangePrice(e)}
         />
         <Input
           name="stock"
@@ -106,11 +135,12 @@ const ModalEditProduct = (props) => {
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          {listCategory.data && listCategory.data.map((option) => (
-            <Option key={option._id} value={option.code}>
-              {option.name}
-            </Option>
-          ))}
+          {listCategory.data &&
+            listCategory.data.map((option) => (
+              <Option key={option._id} value={option.code}>
+                {option.name}
+              </Option>
+            ))}
         </Select>
       </div>
     </Modal>
