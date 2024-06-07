@@ -12,23 +12,24 @@ const Admin = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.authReducer.authData)
 
-  useEffect(()=> {
-    if(!user?.user?.admin && user?.user?.staff){
-      if(!user?.user?.admin && user?.user?.staff && user?.user?.listPermission){
-        const newListTab = items.filter(item => user?.user?.listPermission.includes(item.key))
+  useEffect(() => {
+    if (!user?.user?.admin && user?.user?.staff) {
+      if (
+        !user?.user?.admin &&
+        user?.user?.staff &&
+        user?.user?.listPermission
+      ) {
+        const newListTab = items.filter((item) =>
+          user?.user?.listPermission.includes(item.key),
+        )
         setListTab(newListTab)
       }
     } else {
       setListTab(items)
     }
-  },[user])
+  }, [user])
 
-  const [tabPosition, setTabPosition] = useState('left')
   const [listTab, setListTab] = useState([])
-
-  const changeTabPosition = (e) => {
-    setTabPosition(e.target.value)
-  }
 
   const items = [
     {
@@ -52,7 +53,6 @@ const Admin = () => {
       children: <DecentralizedManage />,
     },
 
-
     // {
     //   key: '3',
     //   label: `Thống kê doanh thu`,
@@ -60,41 +60,12 @@ const Admin = () => {
     // },
   ]
 
-  // const handleChangeTabs = (tabs) => {
-  //   if (tabs === '1') {
-  //     dispatch(
-  //       getProduct({
-  //         page: 1,
-  //         size: 5,
-  //       }),
-  //     )
-  //   }
-  //   if (tabs === '2') {
-  //     dispatch(
-  //       getListOrder({
-  //         page: 1,
-  //         size: 5,
-  //       }),
-  //     )
-  //   }
-  // }
-
   return (
     <>
-      <h1 className="m-5">Trang chủ quản lý</h1>
-      <Space
-        className=" mb-5"
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        <Radio.Group
-          value={tabPosition}
-          onChange={changeTabPosition}
-        ></Radio.Group>
-      </Space>
+      <h3 className="m-3">Trang chủ quản lý</h3>
       <Tabs
-        tabPosition={tabPosition}
+        className="mt-4"
+        tabPosition={'left'}
         items={listTab}
         // onChange={(tabs) => handleChangeTabs(tabs)}
       />

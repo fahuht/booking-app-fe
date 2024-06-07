@@ -12,6 +12,7 @@ const productReducer = (
     isApproveSuccess: false,
     isOrderSuccess: false,
     listCart: [],
+    dataOrder: {},
   },
   action,
 ) => {
@@ -106,16 +107,29 @@ const productReducer = (
 
     //  Order
     case 'ORDER_PRODUCT_START':
-      return { ...state, loading: true, error: false }
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        dataOrder: {},
+        isOrderSuccess: false,
+      }
     case 'ORDER_PRODUCT_SUCCESS':
       return {
         ...state,
         isOrderSuccess: true,
+        dataOrder: action.data,
         loading: false,
         error: false,
       }
     case 'ORDER_PRODUCT_FAIL':
-      return { ...state, loading: false, error: true }
+      return {
+        ...state,
+        loading: false,
+        error: true,
+        dataOrder: {},
+        isOrderSuccess: false,
+      }
 
     // Get Order
     case 'GET_LIST_ORDER_START':

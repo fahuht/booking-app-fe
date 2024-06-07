@@ -93,6 +93,7 @@ export const orderProduct = (dataRequest) => async (dispatch) => {
   dispatch({ type: 'ORDER_PRODUCT_START' })
   try {
     const { data } = await ProductApi.orderProduct(dataRequest)
+    dispatch({ type: 'ORDER_PRODUCT_SUCCESS', data: data })
     if (data) {
       const emailBody = (
         <OrderTemplate
@@ -121,15 +122,26 @@ export const orderProduct = (dataRequest) => async (dispatch) => {
         .catch(function (error) {
           console.log(error)
         })
-        if(data.order_url){
-          window.location.href = data.order_url
-        }
-
     }
 
     // dispatch({ type: 'ORDER_PRODUCT_SUCCESS', data: data })
   } catch (error) {
     dispatch({ type: 'ORDER_PRODUCT_FAIL' })
+    console.log(error)
+  }
+}
+
+// get danh sách order
+export const createPayment = (dataRequest) => async (dispatch) => {
+  dispatch({ type: 'CREATE_PAYMENT_START' })
+  try {
+    const { data } = await ProductApi.createPayment(dataRequest)
+    if(data.order_url){
+      window.location.href = data.order_url
+    }
+    dispatch({ type: 'CREATE_PAYMENT_SUCCESS', data: data })
+  } catch (error) {
+    dispatch({ type: 'CREATE_PAYMENT_FAIL' })
     console.log(error)
   }
 }

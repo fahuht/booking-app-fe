@@ -12,12 +12,13 @@ export const deleteProductOnCart = (data) =>
   API.post(`/product/delete-on-cart`, data)
 export const getCartByUser = (id) => API.get(`/user/get-cart/${id}`)
 // export const orderProduct = (data) => API.post(`/product/order`, data)
-export const orderProduct = (data) => API.post(`/payment/create`, data)
+export const orderProduct = (data) => API.post(`/order/create`, data)
 export const getListOrder = (data) =>
-  API.post(`/product/get-list-order?${data.page && `page=${data.page}`  || ""}&&${data.size && `size=${data.size}`  || ""}`, data)
+  API.post(`/order/get-list-order?${data.page && `page=${data.page}`  || ""}&&${data.size && `size=${data.size}`  || ""}`, data)
 export const getListOrderById = (data) =>
   API.post(
-    `/product/get-list-order/${data.userId}?${data.page && `page=${data.page}`  || ""}&&${data.size && `size=${data.size}`  || ""}`,
+    `/order/get-list-order/${data.userId}?${data.page && `page=${data.page}`  || ""}&&${data.size && `size=${data.size}`  || ""}`,
     data,
   )
-export const approveOrder = (data) => API.post(`/product/approve-order`, data)
+export const approveOrder = (data) => API.post(`/order/approve-order`, data)
+export const createPayment = (data) => API.post(`/payment/create`, data)

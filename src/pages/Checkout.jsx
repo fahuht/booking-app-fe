@@ -7,15 +7,20 @@ import Helmet from '../components/Helmet/Helmet'
 
 import '../pages/page-style/Checkout.css'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { orderProduct } from '../action/ProductAction'
+import { createPayment, orderProduct } from '../action/ProductAction'
 import { notification } from 'antd'
+import Loading from '../components/Loading/Loading'
 
 const Checkout = () => {
   const { state } = useLocation()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.authReducer.authData)
-  const { isOrderSuccess } = useSelector((state) => state.productReducer)
+  const { isOrderSuccess, loading, dataOrder } = useSelector(
+    (state) => state.productReducer,
+  )
   const navigate = useNavigate()
+
+  console.log('dataOrder', dataOrder)
 
   const baseRequset = {
     name: '',
@@ -25,10 +30,10 @@ const Checkout = () => {
   }
   const [dataRequest, setDataRequest] = useState(baseRequset)
 
-
   useEffect(() => {
-    if (isOrderSuccess) {
-      navigate('/don-hang')
+    if (isOrderSuccess && dataOrder) {
+      // navigate('/don-hang')
+      dispatch(createPayment({ orderId: dataOrder?.order?._id }))
     }
   }, [isOrderSuccess])
 
@@ -124,6 +129,7 @@ const Checkout = () => {
           </Row>
         </Container>
       </section>
+      <Loading isLoading={loading} />
     </Helmet>
   )
 }
