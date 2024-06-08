@@ -88,13 +88,16 @@ const OrderMage = () => {
       key: 'status',
       render: (record) => {
         if (record.status === 'waiting') {
-          return <span className="text-warning">Chờ duyệt</span>
+          return <b className="text-danger">Chưa thanh toán</b>
+        }
+        if (record.status === 'paid') {
+          return <b className="text-primary">Đã thanh toán</b>
         }
         if (record.status === 'processing') {
-          return <span className="text-warning">Đang vận chuyển</span>
+          return <b className="text-warning">Đang vận chuyển</b>
         }
         if (record.status === 'finish') {
-          return <span className="text-success">Hoàn thành</span>
+          return <b className="text-success">Hoàn thành</b>
         }
       },
     },
@@ -108,7 +111,7 @@ const OrderMage = () => {
             <div className="d-flex justify-content-center gap-1">
               <Button
                 disabled={
-                  record.status === 'processing' || record.status === 'finish'
+                  record.status === 'processing' || record.status === 'finish' ||  record.status === 'waiting'
                 }
                 onClick={() => {
                   dispatch(

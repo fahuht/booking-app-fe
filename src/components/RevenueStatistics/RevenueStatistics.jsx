@@ -1,4 +1,4 @@
-import { Button, Pagination, Table, notification } from "antd";
+import { Button, Pagination, Radio, Table, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { aggregateOrders, getProduct } from "../../action/ProductAction";
@@ -39,7 +39,9 @@ const RevenueStatistics = (props) => {
     if (dataStatistic && dataStatistic.data) {
       // Set tên cho cột
       const newXAxis = dataStatistic.data.map((item) => {
-        return `${item?._id?.day}/${item?._id?.month}/${item?._id?.year}`;
+        return `${(item?._id?.day && `${item?._id?.day}/`) || ""}${
+          (item?._id?.month && `${item?._id?.month}/`) || ""
+        }${item?._id?.year}`;
       });
       setXAxis(newXAxis);
 
@@ -50,6 +52,7 @@ const RevenueStatistics = (props) => {
           data: listCount,
           label: "Tổng đơn hàng",
           valueFormatter: valueCountFormatter,
+          color: "#ff7777",
         },
       ];
       setSeriesCount(newSeriesCount);
@@ -63,16 +66,33 @@ const RevenueStatistics = (props) => {
           data: listTotalAmount,
           label: "Tổng doanh thu",
           valueFormatter: valueTotalAmountFormatter,
+          color: "#4a5bf7",
         },
       ];
       setSeriesTotalAmount(newSeriesTotalAmount);
     }
   }, [dataStatistic]);
 
+  const onChangeType = (e) => {
+    dispatch(
+      aggregateOrders({
+        type: e.target.value,
+      })
+    );
+  }
+
   return (
     <div className="statistic-page">
       {contextHolder}
       <div>
+        <div className="my-5 px-5 d-flex justify-content-end gap-3 align-items-center"> 
+          <b>Thống kê theo: </b>
+          <Radio.Group onChange={onChangeType} defaultValue="day" buttonStyle="solid">
+            <Radio.Button value="day">Ngày</Radio.Button>
+            <Radio.Button value="month">Tháng</Radio.Button>
+            <Radio.Button value="year">Năm</Radio.Button>
+          </Radio.Group>
+        </div>
         <BarChart
           series={seriesCount}
           height={350}
@@ -81,10 +101,6 @@ const RevenueStatistics = (props) => {
               data: xAxis,
               scaleType: "band",
               categoryGapRatio: 0.5,
-              colorMap: {
-                type: "ordinal",
-                colors: ["#ff7777"],
-              },
             },
           ]}
         />
@@ -96,10 +112,6 @@ const RevenueStatistics = (props) => {
               data: xAxis,
               scaleType: "band",
               categoryGapRatio: 0.5,
-              colorMap: {
-                type: "ordinal",
-                colors: ["#4a5bf7"],
-              },
             },
           ]}
         />

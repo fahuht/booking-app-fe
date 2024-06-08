@@ -36,10 +36,10 @@ const Router = () => {
       />
       {/* <Route path="/dang-ky" element={<Register />} /> */}
       <Route path="/dang-nhap" element={<Login />} />
-      <Route path="/thanh-toan" element={user ? <Checkout /> : <Login />} />
+      <Route path="/thanh-toan" element={user ?  (user?.user?.admin || user?.user?.staff) ? <Admin /> : <Checkout /> : <Login />} />
       <Route path="/lien-he" element={<Contact />} />
       <Route path="/gio-hang" element={user ? <CartPage /> : <Login />} />
-      <Route path="/don-hang" element={user ? <OrderPage /> : <Login />} />
+      <Route path="/don-hang" element={user ?  (user?.user?.admin || user?.user?.staff) ? <Admin /> : <OrderPage /> : <Login />} />
       <Route
         path="/admin"
         element={(user?.user?.admin || user?.user?.staff) ? <Admin /> : <Home />}
