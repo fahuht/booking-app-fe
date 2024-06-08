@@ -116,7 +116,7 @@ const RevenueStatistics = (props) => {
           ]}
         />
       </div>
-      <Loading isLoading={loading} />
+      {/* <Loading isLoading={loading} /> */}
     </div>
   );
 };
