@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { aggregateOrders, getProduct } from "../../action/ProductAction";
 import Loading from "../Loading/Loading";
 import { BarChart } from "@mui/x-charts/BarChart";
+import axios from "axios";
+import FileSaver, { saveAs } from 'file-saver';
+
 
 const RevenueStatistics = (props) => {
   const dispatch = useDispatch();
@@ -23,6 +26,7 @@ const RevenueStatistics = (props) => {
   const [xAxis, setXAxis] = useState([]);
   const [seriesCount, setSeriesCount] = useState([]);
   const [seriesTotalAmount, setSeriesTotalAmount] = useState([]);
+  const [typeStatistic, setTypeStatistic] = useState("day");
 
   useEffect(() => {
     dispatch(
@@ -74,20 +78,53 @@ const RevenueStatistics = (props) => {
   }, [dataStatistic]);
 
   const onChangeType = (e) => {
+    setTypeStatistic(e.target.value)
     dispatch(
       aggregateOrders({
         type: e.target.value,
       })
     );
-  }
+  };
+
+  const handleExportFile = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/order/aggregate-download?type=${typeStatistic}`,
+        { responseType: "blob" }
+      );
+      if (res?.data) {
+        const blob = new Blob([res.data], {
+          type: res.headers["content-type"],
+        });
+        FileSaver.saveAs(
+          blob,
+          'Kết quả thống kê.xlsx'
+        );
+      }
+      debugger;
+    } catch (error) {}
+  };
 
   return (
     <div className="statistic-page">
       {contextHolder}
       <div>
-        <div className="my-5 px-5 d-flex justify-content-end gap-3 align-items-center"> 
+        <div className="my-5 px-5 d-flex justify-content-end gap-3 align-items-center">
+          <Button
+            type="primary"
+            // className='mr-auto'
+            style={{ marginRight: "auto" }}
+            onClick={() => handleExportFile()}
+          >
+            Kết xuất file
+          </Button>
           <b>Thống kê theo: </b>
-          <Radio.Group onChange={onChangeType} defaultValue="day" buttonStyle="solid">
+          <Radio.Group
+            onChange={onChangeType}
+            // defaultValue="day"
+            value={typeStatistic}
+            buttonStyle="solid"
+          >
             <Radio.Button value="day">Ngày</Radio.Button>
             <Radio.Button value="month">Tháng</Radio.Button>
             <Radio.Button value="year">Năm</Radio.Button>
