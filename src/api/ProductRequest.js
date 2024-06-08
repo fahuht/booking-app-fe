@@ -22,3 +22,4 @@ export const getListOrderById = (data) =>
   )
 export const approveOrder = (data) => API.post(`/order/approve-order`, data)
 export const createPayment = (data) => API.post(`/payment/create`, data)
+export const aggregateOrders = (data) => API.get(`/order/aggregate-order?type=${data?.type || "day"}`)

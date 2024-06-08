@@ -182,6 +182,19 @@ export const approveOrder = (dataRequest) => async (dispatch) => {
   }
 }
 
+// thống kê
+export const aggregateOrders = (dataRequest) => async (dispatch) => {
+  dispatch({ type: 'AGGREGATE_ORDER_START' })
+  try {
+    const { data } = await ProductApi.aggregateOrders(dataRequest)
+    dispatch({ type: 'AGGREGATE_ORDER_SUCCESS', data: data })
+  } catch (error) {
+    dispatch({ type: 'AGGREGATE_ORDER_FAIL' })
+    console.log(error)
+  }
+}
+
+
 //clear state
 export const clearStateProduct = () => (dispatch) =>
   dispatch({ type: 'CLEAR_STATE_PRODUCT' })

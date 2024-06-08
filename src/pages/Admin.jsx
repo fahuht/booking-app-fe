@@ -7,6 +7,7 @@ import ProDuctManage from '../components/productManage/ProDuctManage'
 import { getListOrder, getProduct } from '../action/ProductAction'
 import { useDispatch, useSelector } from 'react-redux'
 import DecentralizedManage from '../components/DecentralizedManage/DecentralizedManage'
+import RevenueStatistics from '../components/RevenueStatistics/RevenueStatistics'
 
 const Admin = () => {
   const dispatch = useDispatch()
@@ -53,11 +54,11 @@ const Admin = () => {
       children: <DecentralizedManage />,
     },
 
-    // {
-    //   key: '3',
-    //   label: `Thống kê doanh thu`,
-    //   children: <RevenueManage/>,
-    // },
+    {
+      key: 'THONG_KE',
+      label: `Thống kê doanh thu`,
+      children: <RevenueStatistics />,
+    },
   ]
 
   return (

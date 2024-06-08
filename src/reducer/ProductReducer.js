@@ -13,6 +13,7 @@ const productReducer = (
     isOrderSuccess: false,
     listCart: [],
     dataOrder: {},
+    dataStatistic: {},
   },
   action,
 ) => {
@@ -168,6 +169,19 @@ const productReducer = (
       }
     case 'APPROVE_ORDER_FAIL':
       return { loading: false, error: true }
+
+    // Thống kê
+    case 'AGGREGATE_ORDER_START':
+      return { loading: true, error: false, dataStatistic: {} }
+    case 'AGGREGATE_ORDER_SUCCESS':
+      return {
+        isApproveSuccess: true,
+        loading: false,
+        error: false,
+        dataStatistic: action.data,
+      }
+    case 'AGGREGATE_ORDER_FAIL':
+      return { loading: false, error: true, dataStatistic: {} }
 
     // Clear
     case 'CLEAR_STATE_PRODUCT':
