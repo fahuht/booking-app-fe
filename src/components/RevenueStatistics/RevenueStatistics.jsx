@@ -20,6 +20,9 @@ const RevenueStatistics = (props) => {
   };
 
   console.log("dataStatistic", dataStatistic);
+  const [xAxis, setXAxis] = useState([]);
+  const [seriesCount, setSeriesCount] = useState([]);
+  const [seriesTotalAmount, setSeriesTotalAmount] = useState([]);
 
   useEffect(() => {
     dispatch(
@@ -29,20 +32,76 @@ const RevenueStatistics = (props) => {
     );
   }, []);
 
+  const valueCountFormatter = (value) => `${value} Đơn`;
+  const valueTotalAmountFormatter = (value) => `${value} VNĐ`;
+
+  useEffect(() => {
+    if (dataStatistic && dataStatistic.data) {
+      // Set tên cho cột
+      const newXAxis = dataStatistic.data.map((item) => {
+        return `${item?._id?.day}/${item?._id?.month}/${item?._id?.year}`;
+      });
+      setXAxis(newXAxis);
+
+      //  Lấy data cho tổng đơn hàng
+      const listCount = dataStatistic.data.map((item) => item?.count || 0);
+      const newSeriesCount = [
+        {
+          data: listCount,
+          label: "Tổng đơn hàng",
+          valueFormatter: valueCountFormatter,
+        },
+      ];
+      setSeriesCount(newSeriesCount);
+
+      //  Lấy data cho tổng tiền
+      const listTotalAmount = dataStatistic.data.map(
+        (item) => item?.totalAmount || 0
+      );
+      const newSeriesTotalAmount = [
+        {
+          data: listTotalAmount,
+          label: "Tổng doanh thu",
+          valueFormatter: valueTotalAmountFormatter,
+        },
+      ];
+      setSeriesTotalAmount(newSeriesTotalAmount);
+    }
+  }, [dataStatistic]);
+
   return (
-    <div className="">
+    <div className="statistic-page">
       {contextHolder}
       <div>
         <BarChart
-          series={[
-            { data: [35, 44, 24, 34] },
-            { data: [51, 6, 49, 30] },
-            { data: [15, 25, 30, 50] },
-            { data: [60, 50, 15, 25] },
+          series={seriesCount}
+          height={350}
+          xAxis={[
+            {
+              data: xAxis,
+              scaleType: "band",
+              categoryGapRatio: 0.5,
+              colorMap: {
+                type: "ordinal",
+                colors: ["#ff7777"],
+              },
+            },
           ]}
+        />
+        <BarChart
+          series={seriesTotalAmount}
           height={290}
-          xAxis={[{ data: ["Q1", "Q2", "Q3", "Q4"], scaleType: "band" }]}
-          margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
+          xAxis={[
+            {
+              data: xAxis,
+              scaleType: "band",
+              categoryGapRatio: 0.5,
+              colorMap: {
+                type: "ordinal",
+                colors: ["#4a5bf7"],
+              },
+            },
+          ]}
         />
       </div>
       <Loading isLoading={loading} />
