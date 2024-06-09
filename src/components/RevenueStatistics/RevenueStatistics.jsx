@@ -6,6 +6,7 @@ import Loading from "../Loading/Loading";
 import { BarChart } from "@mui/x-charts/BarChart";
 import axios from "axios";
 import FileSaver, { saveAs } from 'file-saver';
+import { URL_SERVER } from "../../constants/constants";
 
 
 const RevenueStatistics = (props) => {
@@ -89,7 +90,7 @@ const RevenueStatistics = (props) => {
   const handleExportFile = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/order/aggregate-download?type=${typeStatistic}`,
+        `${URL_SERVER}/order/aggregate-download?type=${typeStatistic}`,
         { responseType: "blob" }
       );
       if (res?.data) {

@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const API = axios.create({ baseURL: `http://localhost:5000` })
+import { URL_SERVER } from '../constants/constants'
+
+const API = axios.create({ baseURL: URL_SERVER })
 
 export const addPermission = (data) => API.post('/user/add-permission', data)
 export const deleteUser = (data) => API.post('/user/delete', data)

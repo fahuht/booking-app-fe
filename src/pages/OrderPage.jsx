@@ -8,6 +8,7 @@ import {
 } from "../action/ProductAction";
 import { Button, Pagination, Table, notification } from "antd";
 import Loading from "../components/Loading/Loading";
+import { convertSize } from "../constants/constants";
 
 const OrderPage = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const OrderPage = () => {
               record.listCart.map((item) => (
                 <span>
                   {" "}
-                  {item.title} - {item.number}
+                  {item.title} - {convertSize(item.size)}  x  {item.quantity}
                 </span>
               ))}
           </div>

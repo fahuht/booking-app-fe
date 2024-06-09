@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const API = axios.create({ baseURL: `http://localhost:5000` })
+import { URL_SERVER } from '../constants/constants'
+
+const API = axios.create({ baseURL: URL_SERVER })
 
 export const createProduct = (data) => API.post('/product/create-product', data)
 export const updateProduct = (data) => API.post('/product/update-product', data)
