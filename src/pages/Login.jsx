@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import Helmet from '../components/Helmet/Helmet'
-import AppSection from '../components/app-Section/AppSection'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import Helmet from "../components/Helmet/Helmet";
+import AppSection from "../components/app-Section/AppSection";
+import { useNavigate } from "react-router-dom";
 
-import '../pages/page-style/Login.css'
-import { useDispatch, useSelector } from 'react-redux'
-import { clearAuthState, logIn, signUp } from '../action/AuthAction'
-import Loading from '../components/Loading/Loading'
-import { notification } from 'antd'
-import { Alert } from 'react-bootstrap'
+import "../pages/page-style/Login.css";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAuthState, logIn, signUp } from "../action/AuthAction";
+import Loading from "../components/Loading/Loading";
+import { notification } from "antd";
+import { Alert } from "react-bootstrap";
 
 const Login = () => {
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.authReducer.authData)
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.authReducer.authData);
 
-  const { loading, errMessage } = useSelector((state) => state.authReducer)
-  const navigate = useNavigate()
-  const [api, contextHolder] = notification.useNotification()
+  const { loading, errMessage } = useSelector((state) => state.authReducer);
+  const navigate = useNavigate();
+  const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type, message, description) => {
     api[type]({
       message,
       description,
-    })
-  }
+    });
+  };
   // State
-  const [isSignUp, setIsSignUp] = useState(false)
+  const [isSignUp, setIsSignUp] = useState(false);
   const [data, setData] = useState({
-    firstname: '',
-    lastname: '',
-    username: '',
-    password: '',
-    confirmpass: '',
-  })
-  const [confirmPass, setConfirmPass] = useState(true)
+    firstname: "",
+    lastname: "",
+    username: "",
+    password: "",
+    confirmpass: "",
+  });
+  const [confirmPass, setConfirmPass] = useState(true);
 
   // useEffect(() => {
   //   localStorage.clear()
@@ -40,49 +40,56 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/trang-chu')
+      navigate("/trang-chu");
     }
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     if (errMessage) {
-      openNotificationWithIcon('error', errMessage, '')
-      dispatch(clearAuthState())
+      openNotificationWithIcon("error", errMessage, "");
+      dispatch(clearAuthState());
     }
-  }, [errMessage])
+  }, [errMessage]);
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-  }
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (isSignUp) {
       if (data.password === data.confirmpass) {
-        dispatch(signUp(data))
-      } else setConfirmPass(false)
+        dispatch(signUp(data));
+      } else setConfirmPass(false);
     } else {
-      dispatch(logIn(data))
+      dispatch(logIn(data));
     }
-  }
+  };
 
   const resetForm = () => {
-    setConfirmPass(true)
+    setConfirmPass(true);
     setData({
-      firstname: '',
-      lastname: '',
-      username: '',
-      password: '',
-      confirmpass: '',
-    })
-  }
+      firstname: "",
+      lastname: "",
+      username: "",
+      password: "",
+      confirmpass: "",
+    });
+  };
   return (
     <Helmet>
       {contextHolder}
       <AppSection />
-      <section>
-        <form action="" className="infoForm authForm" onSubmit={handleSubmit}>
-          <h3>{isSignUp ? 'Đăng ký' : 'Đăng nhập'}</h3>
+      <div className="login-popup">
+        <form
+          action=""
+          className="login-popup-container"
+          onSubmit={handleSubmit}
+        >
+          <div className="login-popup-title">
+            <h2>{isSignUp ? "Đăng ký" : "Đăng nhập"}</h2>
+          </div>
+
           {/* {alertMessage !== null && <Alert variant="danger">{alert}</Alert>} */}
           {isSignUp && (
             <div>
@@ -108,7 +115,7 @@ const Login = () => {
           )}
           <div>
             <input
-              type={isSignUp ? 'email' : 'text'}
+              type={isSignUp ? "email" : "text"}
               className="infoInput"
               placeholder="Email"
               name="username"
@@ -141,31 +148,31 @@ const Login = () => {
           </div>
           <span
             style={{
-              display: confirmPass ? 'none' : 'block',
-              color: 'red',
-              fontSize: '12px',
-              alignSelf: 'flex-end',
+              display: confirmPass ? "none" : "block",
+              color: "red",
+              fontSize: "12px",
+              alignSelf: "flex-end",
             }}
           >
             * Xác nhận mật khẩu không chính xác
           </span>
           <div>
             <span
-              style={{ fontSize: '12px', cursor: 'pointer' }}
+              style={{ fontSize: "12px", cursor: "pointer" }}
               onClick={() => {
-                setIsSignUp((prev) => !prev)
-                resetForm()
+                setIsSignUp((prev) => !prev);
+                resetForm();
               }}
             >
               {isSignUp ? (
                 <>
-                  Đã có tài khoản?{' '}
-                  <span style={{ textDecoration: 'underline' }}>Đăng nhập</span>
+                  Đã có tài khoản?{" "}
+                  <span style={{ textDecoration: "underline" }}>Đăng nhập</span>
                 </>
               ) : (
                 <>
-                  Chưa có tài khoản?{' '}
-                  <span style={{ textDecoration: 'underline' }}>Đăng ký</span>
+                  Chưa có tài khoản?{" "}
+                  <span style={{ textDecoration: "underline" }}>Đăng ký</span>
                 </>
               )}
             </span>
@@ -177,17 +184,17 @@ const Login = () => {
           >
             {loading
               ? isSignUp
-                ? 'Đăng ký...'
-                : 'Đăng nhập...'
+                ? "Đăng ký..."
+                : "Đăng nhập..."
               : isSignUp
-              ? 'Đăng ký'
-              : 'Đăng nhập'}
+              ? "Đăng ký"
+              : "Đăng nhập"}
           </button>
         </form>
-      </section>
+      </div>
       <Loading isLoading={loading} />
     </Helmet>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

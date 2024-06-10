@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap'
-import logo from '../../assets/image/res-logo.png'
-import '../Footer/Footer.css'
+import React from "react";
+import { Link } from "react-router-dom";
+import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
+import logo from "../../assets/image/res-logo.png";
+import "../Footer/Footer.css";
 const Footer = () => {
   return (
     <footer className="footer-footer">
@@ -58,10 +58,10 @@ const Footer = () => {
                 <ListGroupItem className="footer_listgroup_item border-0 ps-0">
                   <div className="social__links d-flex align-items-center gap-4 ">
                     <span>
-                      {' '}
+                      {" "}
                       <Link to="https://www.facebook.com/ducviet260909/">
                         <i class="ri-facebook-line"></i>
-                      </Link>{' '}
+                      </Link>{" "}
                     </span>
 
                     <span>
@@ -71,17 +71,17 @@ const Footer = () => {
                     </span>
 
                     <span>
-                      {' '}
+                      {" "}
                       <Link to=" https://www.youtube.com">
                         <i class="ri-youtube-line"></i>
-                      </Link>{' '}
+                      </Link>{" "}
                     </span>
 
                     <span>
-                      {' '}
+                      {" "}
                       <Link to=" https://www.linkedin.com">
                         <i class="ri-linkedin-line"></i>
-                      </Link>{' '}
+                      </Link>{" "}
                     </span>
                   </div>
                 </ListGroupItem>
@@ -97,7 +97,7 @@ const Footer = () => {
         </div>
       </Container>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

@@ -1,133 +1,249 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import React from "react";
+import { useState, useEffect } from "react";
+import Helmet from "../components/Helmet/Helmet.js";
+import { Container, Row, Col } from "reactstrap";
+import heroImg from "../assets/image/hero.png";
+import { Link } from "react-router-dom";
 
-import Helmet from '../components/Helmet/Helmet.js'
-import AppSection from '../components/app-Section/AppSection'
+import "../pages/page-style/Home.css";
+import "../components/Helmet/Helmet.css";
 
-import ProductCard from '../components/product-card/ProductCard'
+import Category from "../components/Category/Category.jsx";
+// import products from '../assets/data/products.js'
+import ProductCard from "../components/product-card/ProductCard.jsx";
 
-import '../pages/page-style/Foods.css'
-import '../pages/page-style/paginate.css'
-import { clearStateProduct, getProduct } from '../action/ProductAction.js'
-import { useDispatch, useSelector } from 'react-redux'
-import Loading from '../components/Loading/Loading.js'
-import { Pagination, notification } from 'antd'
+import menu_1 from "../assets/image/menu_1.png";
+import menu_2 from "../assets/image/menu_2.png";
+import menu_3 from "../assets/image/menu_3.png";
+import menu_4 from "../assets/image/menu_4.png";
+import menu_5 from "../assets/image/menu_5.png";
+import menu_6 from "../assets/image/menu_6.png";
+import menu_7 from "../assets/image/menu_7.png";
+import menu_8 from "../assets/image/menu_8.png";
 
-const Foods = () => {
-  const dispatch = useDispatch()
-  const listProduct = useSelector((state) => state.productReducer.listProduct)
+import { useDispatch, useSelector } from "react-redux";
+import { clearStateProduct, getProduct } from "../action/ProductAction.js";
+import Loading from "../components/Loading/Loading.js";
+import { notification } from "antd";
+
+const Home = () => {
+  const dispatch = useDispatch();
+  const listProduct = useSelector((state) => state.productReducer.listProduct);
   const { loading, isAddToCartSuccess } = useSelector(
-    (state) => state.productReducer,
-  )
+    (state) => state.productReducer
+  );
 
-  const [api, contextHolder] = notification.useNotification()
+  const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type) => {
     api[type]({
-      message: 'Thêm vào giỏ hàng thành công!',
-      description: 'Hãy vào giỏ hàng để thanh toán hoặc tiếp tục mua sắm',
-    })
-  }
+      message: "Thêm vào giỏ hàng thành công!",
+      description: "Hãy vào giỏ hàng để thanh toán hoặc tiếp tục mua sắm",
+    });
+  };
 
   const baseRequest = {
-    title: '',
+    category: "",
     page: 1,
-    size: 10,
-  }
-  const [searchItem, setsearchItem] = useState('')
-  const [dataRequest, setDataRquest] = useState(baseRequest)
+    size: 8,
+  };
+  const [category, setCategory] = useState("Tất cả");
+
+  const [dataRequest, setDataRquest] = useState(baseRequest);
 
   useEffect(() => {
     if (isAddToCartSuccess) {
-      openNotificationWithIcon('success')
+      openNotificationWithIcon("success");
       dispatch(
         getProduct({
           ...dataRequest,
-        }),
-      )
-      dispatch(clearStateProduct())
+        })
+      );
+      dispatch(clearStateProduct());
     }
-  }, [isAddToCartSuccess])
+  }, [isAddToCartSuccess]);
 
   useEffect(() => {
     dispatch(
       getProduct({
         ...dataRequest,
-      }),
-    )
-  }, [])
+      })
+    );
+  }, []);
 
-  const handleSearch = () => {
+  const handleChangeCategory = (type) => {
     const newDataRequest = {
       ...dataRequest,
-      title: searchItem,
-    }
+      category: type,
+    };
     dispatch(
       getProduct({
         ...newDataRequest,
-      }),
-    )
-  }
-
-  const handlePageChange = (page) => {
-    const newDataRequest = {
-      ...dataRequest,
-      page,
-    }
-    setDataRquest(newDataRequest)
-    dispatch(
-      getProduct({
-        ...newDataRequest,
-      }),
-    )
-  }
+      })
+    );
+  };
 
   return (
-    <Helmet title="san-pham">
+    <Helmet title="trang-chu">
       {contextHolder}
-      <AppSection title="Tất cả sản phẩm" />
-
-      <section className="mt-5">
+      <section>
         <Container>
           <Row>
-            <Col lg="6" md="6" sm="6" xs="12">
-              <div className="search_widget d-flex align-items-center justify-content-between w-50">
-                <input
-                  type="text"
-                  placeholder="Nhập món cần tìm"
-                  value={searchItem}
-                  onChange={(e) => setsearchItem(e.target.value)}
-                />
+            <Col lg="6" md="6">
+              <div className="hero_content">
+                <h5>
+                  <span>Deal Ngập Tràn </span>
+                </h5>
+                <h1>
+                  <span>Thỏa sức đặt món</span>
+                </h1>
+              </div>
+              <div className="hero_button d-flex align-items-center gap-3 ">
+                <button className="footer_order_btn d-flex align-items-center justify-content-between">
+                  Đặt hàng ngay
+                </button>
 
-                <span onClick={() => handleSearch()}>
-                  <i class="ri-search-line"></i>
-                </span>
+                <button className="all_food_btn">
+                  <Link to="/foods">Tất cả món</Link>
+                </button>
+              </div>
+
+              <div className="hero_service mt-5">
+                <p className="d-flex align-items-center gap-2">
+                  <span className="shipping_icon">
+                    <i class="ri-car-line"></i>Giao hàng nhanh chóng
+                  </span>
+                </p>
+              </div>
+              <div className="hero_service mt-2">
+                <p className="d-flex align-items-center gap-2">
+                  <span className="shipping_icon">
+                    <i class="ri-car-line"></i>Thông tin bảo mật
+                  </span>
+                </p>
               </div>
             </Col>
 
-            <div className="panigation-icon"></div>
+            <Col lg="6" md="6">
+              <div className="hero_img">
+                <img src={heroImg} alt="hero__image" className="w-100" />
+              </div>
+            </Col>
           </Row>
-          <div className="row d-flex mt-3">
-            {listProduct &&
-              listProduct.data.map((item) => (
-                <div className="col-md-3 p-2">
-                  <ProductCard item={item} />
-                </div>
-              ))}
-          </div>
         </Container>
-        <div className="d-flex justify-content-center mt-2">
-          <Pagination
-            current={dataRequest.page}
-            pageSize={dataRequest.size}
-            total={(listProduct && listProduct.totalElement) || 0}
-            onChange={(page) => handlePageChange(page)}
-          />
-        </div>
+      </section>
+
+      {/* <section>
+        <Category />
+      </section> */}
+
+      <section>
+        <Container>
+          <Row>
+            <Col lg="12" className="text-center mt-5">
+              <h2>Sản phẩm</h2>
+            </Col>
+
+            <div className="explore-menu" id="explore-menu">
+              <div className="explore-menu-list">
+                {/* <button
+                  className={`all_food_btnn ${
+                    category === "Tất cả" ? "food_btn_active" : ""
+                  }`}
+                  onClick={() => {
+                    handleChangeCategory("");
+                    setCategory("Tất cả");
+                  }}
+                >
+                  Tất cả
+                </button> */}
+
+                <div
+                  className="explore-menu-list-item "
+                  onClick={() => {
+                    handleChangeCategory("DO_AN");
+                    setCategory("Đồ ăn");
+                  }}
+                >
+                  <img
+                    className={category === "Đồ ăn" ? "active" : ""}
+                    src={menu_1}
+                    alt=""
+                  />
+                  <p>Đồ ăn</p>
+                </div>
+                <div
+                  className="explore-menu-list-item "
+                  onClick={() => {
+                    handleChangeCategory("TRA");
+                    setCategory("Trà");
+                  }}
+                >
+                  <img
+                    className={category === "Trà" ? "active" : ""}
+                    src={menu_2}
+                    alt=""
+                  />
+                  <p>Trà</p>
+                </div>
+                <div
+                  className="explore-menu-list-item "
+                  onClick={() => {
+                    handleChangeCategory("CLOUD");
+                    setCategory("Cloud");
+                  }}
+                >
+                  <img
+                    className={category === "Cloud" ? "active" : ""}
+                    src={menu_3}
+                    alt=""
+                  />
+                  <p>Cloud</p>
+                </div>
+                <div
+                  className="explore-menu-list-item "
+                  onClick={() => {
+                    handleChangeCategory("CAFE");
+                    setCategory("Cafe");
+                  }}
+                >
+                  <img
+                    className={category === "Cafe" ? "active" : ""}
+                    src={menu_4}
+                    alt=""
+                  />
+                  <p>Cafe</p>
+                </div>
+                <div
+                  className="explore-menu-list-item "
+                  onClick={() => {
+                    handleChangeCategory("DO_AN");
+                    setCategory("Đồ ăn");
+                  }}
+                >
+                  <img
+                    className={category === "Đồ ăn" ? "active" : ""}
+                    src={menu_1}
+                    alt=""
+                  />
+                  <p>Đồ ăn</p>
+                </div>
+                <hr />
+              </div>
+            </div>
+
+            {listProduct &&
+              listProduct.data &&
+              listProduct.data.map((item) => (
+                <Col lg="3" md="4" key={item.id} className="mt-5">
+                  <ProductCard item={item} />
+                </Col>
+              ))}
+          </Row>
+        </Container>
       </section>
       <Loading isLoading={loading} />
     </Helmet>
-  )
-}
+  );
+};
 
-export default Foods
+export default Home;
